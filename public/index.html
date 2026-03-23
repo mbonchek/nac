@@ -374,44 +374,45 @@ body {
 
 .archive-show-tracks {
   display: none;
-  padding: 8px 0 24px;
+  padding: 8px 16px 0;
 }
 
 .archive-show.expanded .archive-show-tracks {
   display: block;
 }
 
-.archive-track {
+.archive-track-grid {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  color: inherit;
-  transition: background 0.15s;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.archive-track:hover {
-  background: var(--bg-surface);
+.archive-track {
+  width: 80px;
+  text-decoration: none;
+  color: inherit;
 }
 
 .archive-track-art {
-  width: 44px;
-  height: 44px;
+  width: 80px;
+  height: 80px;
   border-radius: 4px;
   object-fit: cover;
-  flex-shrink: 0;
+  display: block;
   background: var(--bg-elevated);
+  transition: opacity 0.15s;
+}
+
+.archive-track:hover .archive-track-art {
+  opacity: 0.8;
 }
 
 .archive-track-info {
-  min-width: 0;
-  flex: 1;
+  padding: 3px 0;
 }
 
 .archive-track-name {
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -419,11 +420,18 @@ body {
 }
 
 .archive-track-artist {
-  font-size: 12px;
+  font-size: 9px;
   color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (max-width: 600px) {
+  .archive-track { width: calc(50% - 4px); }
+  .archive-track-art { width: 100%; height: auto; aspect-ratio: 1; }
+  .archive-track-name { font-size: 12px; }
+  .archive-track-artist { font-size: 11px; }
 }
 
 .archive-chevron {
@@ -1030,8 +1038,8 @@ function formatTheme(theme, date) {
   let html = escapeHtml(theme);
   names.forEach(name => {
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const re = new RegExp('(?<!<em>)\\b(' + escaped + ')\\b', 'gi');
-    html = html.replace(re, '<em>$1</em>');
+    const re = new RegExp('(?<!<em>)\\b' + escaped + '\\b', 'gi');
+    html = html.replace(re, '<em>' + escapeHtml(name) + '</em>');
   });
   return html;
 }
@@ -1054,15 +1062,17 @@ function renderArchive() {
           </div>
         </div>
         <div class="archive-show-tracks">
+          <div class="archive-track-grid">
           ${tracks.map(t => `
             <a class="archive-track" href="${t.spotify_url}" target="_blank" rel="noopener noreferrer">
-              <img class="archive-track-art" src="${t.album_art_64}" alt="${escapeHtml(t.album)}" loading="lazy" width="44" height="44">
+              <img class="archive-track-art" src="${t.album_art_300}" alt="${escapeHtml(t.album)}" loading="lazy" width="300" height="300">
               <div class="archive-track-info">
                 <div class="archive-track-name">${escapeHtml(t.name)}</div>
                 <div class="archive-track-artist">${escapeHtml(t.artist)}</div>
               </div>
             </a>
           `).join('')}
+          </div>
           ${SHOW_THEMES[date] ? `<div class="archive-show-theme">${formatTheme(SHOW_THEMES[date], date)}</div>` : ''}
         </div>
       </div>
