@@ -437,6 +437,25 @@ body {
   transform: rotate(180deg);
 }
 
+.show-theme {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  font-style: italic;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 16px;
+}
+
+.archive-show-theme {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  font-style: italic;
+  padding: 10px 16px 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
 /* ===== PATTERNS VIEW ===== */
 .patterns-header {
   padding: 48px 0 32px;
@@ -767,6 +786,7 @@ body {
         </div>
       </div>
       <div class="latest-grid" id="latest-grid"></div>
+      <div class="show-theme" id="latest-theme"></div>
     </div>
   </div>
 
@@ -892,6 +912,8 @@ body {
 
 <script>
 // ===== DATA =====
+const SHOW_THEMES = {"2025-03-27": "Sun-drenched surrender \u2014 Roy Ayers' golden shimmer, America's desert drift, Radiohead's deep-water pull, Pearl Jam's trapped longing \u2014 songs about yielding to forces bigger than yourself.", "2025-04-03": "Who are you, and will you still be here? From The Who's existential bark to American Football's quiet devastation, the set lingers on unfinished goodbyes and love that can't name itself.", "2025-04-10": "Neo-soul meets summer concrete: Erykah Badu and Lauryn Hill anchor a body-forward groove that flows from Sublime's coastal haze through Kendrick's urgency and into Larry June's California gold.", "2025-04-24": "Tyler Childers' raw devotion and Alice In Chains' hollow confessions share a frequency with Radiohead's dry abandonment \u2014 Americana and alt-rock circling the same bruised, slow-burning center.", "2025-05-01": "Every track a live recording \u2014 a show about the room itself: Bonnie Raitt's restraint, Neil Young's frayed honesty, and Oasis making 60,000 people feel like the last two on earth.", "2025-05-08": "A 50-year arc of letting go \u2014 Cat Stevens counseling his son, Bill Withers asking for a shoulder, Fleetwood Mac watching thunder, Frank Ocean sealing a golden afternoon in amber.", "2025-09-22": "Late-summer's long exhale: Slightly Stoopid and Sublime's warmth bookend half-resolved tensions, from Temple of the Dog's hunger to Third Eye Blind asking how it'll be when this is over.", "2025-10-01": "A sleek, low-lit 2018-era groove \u2014 Tems, Childish Gambino, and Tame Impala mapping peak summer already becoming memory, warm on the surface and quietly unsteady underneath.", "2025-10-08": "Heavy weather throughout: Massive Attack's heartbeat, Alice In Chains on Vietnam, The Band on the Civil War's last night \u2014 haunted by history, regret, and things that can't be undone.", "2025-10-22": "An unmistakably Irish hour \u2014 Fontaines D.C.'s Dublin grit, U2's transcendence, the Chieftains and Sin\u00e9ad O'Connor at the ancient well \u2014 held together by Hozier's charm and the Cranberries' ache.", "2025-10-29": "Restless and rangy: newer indie voices (Wunderhorse, Royel Otis, Surf Curse) orbit Fontaines D.C.'s desire and Khruangbin's Texas twilight, all songs wanting something just out of frame.", "2025-11-05": "Soul and conscience collide \u2014 Les McCann's protest jazz opens a door Leon Bridges and Durand Jones walk through, while Gordon Lightfoot mourns the Edmund Fitzgerald and everyone keeps waiting.", "2025-11-12": "Home as a feeling always just out of reach: Talking Heads found it in naive melody, Fleet Foxes in the Blue Ridge, LCD Soundsystem in the moment before the beat drops.", "2025-11-19": "Deep in the 70s id \u2014 Siouxsie's spell, the Doobie Brothers' bayou, Fleetwood Mac's gypsy drift, and the Stones twice \u2014 soaked in heat, desire, and the freedom of not knowing where you're going.", "2025-12-03": "The bittersweet math of time: LCD Soundsystem's 'All My Friends' is the anchor, with Diana Ross, Wilco, the Faces, and Alabama Shakes all orbiting the same question \u2014 what do we have to show for it?", "2025-12-10": "Semester-end gathering of inner refuges \u2014 Creed's prison, Pearl Jam's hiding place, Cocteau Twins' otherworld, Talking Heads' naive home \u2014 where you retreat when the outside stops making sense.", "2026-01-26": "Songs of bewildered arrival: Talking Heads asking 'how did I get here?', Pearl Jam's elderly woman replaying her old life, Michael Kiwanuka torn between love and hate \u2014 January's reckoning.", "2026-02-09": "Fathers, sons, and inherited damage \u2014 Eddie Vedder covers Neil Young's needle, Sam Fender is the spit of his old man, Harry Nilsson walks into the unknown, and everyone's still waiting to be released.", "2026-02-16": "Waking into a world that demands a response: Arcade Fire's rally, Radiohead's WWI elegy, Beck's slacker drift, and the Stones' street-level fury \u2014 with Florence and Jack Johnson as grace notes.", "2026-03-16": "Nick Drake's hush sets the emotional key for a set about young people circling each other \u2014 Wet Leg's dry wit, TV Girl's almost-love, slenderbodies' shimmer, and 'Young Folks' as the hopeful hinge.", "2026-03-23": "A year lost, a year found \u2014 Third Eye Blind opens the reckoning, Blind Melon and Primitive Radio Gods stand at different payphones, and the Stone Roses remind you even heartbreak has a great bassline."};
+
 const PLAYLIST_IDS = {
   "2026-03-23": "6wItJpL54hsnvg4RIS3kfx",
   "2026-03-16": "5DelsGCD1m6JBx2qyLrzz8",
@@ -970,6 +992,9 @@ function renderLatest() {
   const totalMs = tracks.reduce((sum, t) => sum + t.duration_ms, 0);
   document.getElementById('latest-runtime').textContent = formatDuration(totalMs);
 
+  const theme = SHOW_THEMES[latestDate];
+  if (theme) document.getElementById('latest-theme').textContent = theme;
+
   const grid = document.getElementById('latest-grid');
   grid.innerHTML = tracks.map((t, i) => `
     <a class="track-card" href="${t.spotify_url}" target="_blank" rel="noopener noreferrer" style="animation-delay:${i * 0.06}s">
@@ -1016,6 +1041,7 @@ function renderArchive() {
               </div>
             </a>
           `).join('')}
+          ${SHOW_THEMES[date] ? `<div class="archive-show-theme">${SHOW_THEMES[date]}</div>` : ''}
         </div>
       </div>
     `;
