@@ -21,7 +21,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NAC — Nine Acre Corner</title>
-<meta name="description" content="Nine Acre Corner (NAC) — Henry Bonchek's weekly college radio show on 88.1 FM. Exploring decades of rock, indie, and alternative music.">
+<meta name="description" content="Nine Acre Corner (NAC) — Henry Bonchek's weekly radio show on WCHC 88.1 FM, College of the Holy Cross. Named for the historic intersection in Concord, MA where he grew up.">
 
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -731,20 +731,22 @@ body {
   <div class="nav-inner">
     <div class="nav-brand">
       <div class="nav-logo">
-        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="NAC Logo">
-          <!-- Vinyl record with broadcast waves -->
-          <circle cx="18" cy="18" r="16" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
-          <circle cx="18" cy="18" r="11" stroke="currentColor" stroke-width="1" opacity="0.2"/>
-          <circle cx="18" cy="18" r="6.5" stroke="currentColor" stroke-width="1" opacity="0.15"/>
-          <circle cx="18" cy="18" r="3" fill="currentColor"/>
-          <!-- Broadcast waves top-right -->
-          <path d="M26 8 C28 6 30 7 28.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
-          <path d="M28 5.5 C31 3 34 4.5 31.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="NAC Logo — Three roads meeting at Nine Acre Corner">
+          <!-- Three roads converging at the corner — Sudbury Rd, Powder Mill Rd, Seven Star Lane -->
+          <line x1="18" y1="18" x2="4" y2="6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+          <line x1="18" y1="18" x2="32" y2="8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+          <line x1="18" y1="18" x2="18" y2="34" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+          <!-- Corner marker -->
+          <circle cx="18" cy="18" r="4.5" fill="var(--accent-amber)" opacity="0.9"/>
+          <circle cx="18" cy="18" r="2" fill="var(--bg-primary)"/>
+          <!-- Broadcast waves radiating from corner -->
+          <circle cx="18" cy="18" r="9" stroke="currentColor" stroke-width="1" opacity="0.15"/>
+          <circle cx="18" cy="18" r="14" stroke="currentColor" stroke-width="0.75" opacity="0.1"/>
         </svg>
       </div>
       <div class="nav-brand-text">
         <span class="nav-title">NAC</span>
-        <span class="nav-subtitle">Nine Acre Corner · 88.1 FM</span>
+        <span class="nav-subtitle">Nine Acre Corner · WCHC 88.1 FM</span>
       </div>
     </div>
     <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-tabs').classList.toggle('open')" aria-label="Toggle menu">
@@ -841,12 +843,22 @@ body {
         <h1 class="about-title">About</h1>
       </div>
       <div class="about-content">
+        <h2 style="font-family:var(--font-display);font-size:clamp(1.25rem,1rem+1vw,1.75rem);font-weight:600;color:var(--accent-amber);margin-bottom:12px;">The Name</h2>
         <p class="about-description">
-          Nine Acre Corner (NAC) is Henry Bonchek's weekly college radio show on 88.1 FM. Each week, Henry curates a playlist spanning decades of rock, indie, and alternative — from Pearl Jam to Fontaines D.C., from the Rolling Stones to Men I Trust.
+          Nine Acre Corner is a real place in Concord, Massachusetts — where Sudbury Road, Powder Mill Road, and Seven Star Lane converge. The name dates to the 1630s, when Peter Bulkeley, one of Concord's founders, owned a nine-acre meadow nearby. The path to his land became "the Way to the Nine Acres," and the intersection became Nine Acre Corner.
         </p>
         <p class="about-description">
-          This archive collects every track from every show, so you can revisit the music or discover something new. The data goes back to March 2025 and is updated after each broadcast.
+          Henry grew up near there. The name carries the history of that landscape — farmland, river meadows, and old New England roads — into something new.
         </p>
+
+        <h2 style="font-family:var(--font-display);font-size:clamp(1.25rem,1rem+1vw,1.75rem);font-weight:600;color:var(--accent-amber);margin-bottom:12px;margin-top:32px;">The Show</h2>
+        <p class="about-description">
+          NAC is Henry Bonchek's weekly radio show on <a href="https://www.holycross.edu/community/get-involved/student-clubs-organizations/wchc-881fm" target="_blank" rel="noopener noreferrer" style="color:var(--accent-amber);border-bottom:1px solid var(--accent-amber);padding-bottom:1px;">WCHC 88.1 FM</a>, the student-run station at the College of the Holy Cross in Worcester, MA. WCHC has been broadcasting since 1948 — Worcester's only alternative source.
+        </p>
+        <p class="about-description">
+          Each week, Henry curates a playlist spanning decades of rock, indie, and alternative — from Pearl Jam to Fontaines D.C., from the Rolling Stones to Men I Trust. This archive collects every track from every show, so you can revisit the music or discover something new.
+        </p>
+
         <div class="about-stats">
           <div class="about-stat">
             <div class="about-stat-value" id="stat-shows">21</div>
@@ -864,7 +876,11 @@ body {
         <div class="about-links">
           <a class="about-link" href="https://open.spotify.com/user/henrybonchek" target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-            Henry's Spotify
+            Henry on Spotify
+          </a>
+          <a class="about-link" href="https://www.holycross.edu/community/get-involved/student-clubs-organizations/wchc-881fm" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 010 8.49m-8.48-.01a6 6 0 010-8.49m11.31-2.82a10 10 0 010 14.14m-14.14 0a10 10 0 010-14.14"/></svg>
+            WCHC 88.1 FM
           </a>
         </div>
       </div>
