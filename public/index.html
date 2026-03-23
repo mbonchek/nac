@@ -861,14 +861,23 @@ body {
         <div class="repeats-grid" id="repeats-grid"></div>
       </div>
 
-      <!-- Show Energy -->
+      <!-- Show Audio DNA -->
       <div class="patterns-section">
-        <div class="patterns-section-title"><span class="accent-dot"></span>Show Energy Timeline</div>
+        <div class="patterns-section-title"><span class="accent-dot"></span>Show Audio DNA</div>
         <div class="chart-container">
-          <div class="chart-canvas-wrap" style="height:240px">
-            <canvas id="chart-energy"></canvas>
+          <div class="chart-canvas-wrap" style="height:280px">
+            <canvas id="chart-audio-dna"></canvas>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.5">
+            Per-show averages from Spotify audio analysis. <strong style="color:var(--accent-amber)">Energy</strong> = intensity and activity. <strong style="color:#D4735E">Danceability</strong> = rhythmic suitability for dancing. <strong style="color:#8BB174">Valence</strong> = musical positiveness (high = happy, low = dark). <strong style="color:#7B93DB">Acousticness</strong> = acoustic vs. electronic production.
           </div>
         </div>
+      </div>
+
+      <!-- Meta Pattern -->
+      <div class="patterns-section">
+        <div class="patterns-section-title"><span class="accent-dot"></span>The Meta-Pattern</div>
+        <div style="font-size:14px;line-height:1.7;color:var(--text-secondary);max-width:720px">Across 21 shows, NAC has been saying one thing in many voices: that light and loss are not opposites but the same frequency, arriving together like rain and fire in the same weather. Every show has moved without forcing arrival — tracing arcs, following currents, accumulating texture — because the playlist has always known that the journey is not the path to something; it is the thing itself. Again and again, descent has been the condition for depth: love that blackens before it blooms, endurance after breaking, change as the place where the story finally becomes itself, the wreckage that turns out to be full of something. The body has been trusted over the mind — feel the room, feel the chest, feel the weather moving through — which is another way of saying that NAC has always been teaching people to be present before it teaches them to understand. What keeps showing up, not as repetition but as deepening, is a radical tenderness toward the irresolvable: the beautiful, the broken, the elusive, the irreversible, all held without being forced to make peace with each other. This is what NAC is: a resonant field that keeps sounding the same note in different octaves, season after season, trusting that the listener will feel it land somewhere they didn’t know was waiting.</div>
       </div>
     </div>
   </div>
@@ -1107,7 +1116,7 @@ function initCharts() {
   renderTopArtists();
   renderDecadeChart();
   renderRepeats();
-  renderEnergyChart();
+  renderAudioDNA();
 }
 
 function renderTopArtists() {
@@ -1260,40 +1269,55 @@ function renderRepeats() {
   `).join('');
 }
 
-function renderEnergyChart() {
-  const showEnergy = sortedDates.map(date => {
-    const tracks = SHOW_DATA[date];
-    const avg = tracks.reduce((s, t) => s + t.popularity, 0) / tracks.length;
-    return { date, avg: Math.round(avg * 10) / 10 };
-  });
+const AUDIO_DNA = {"2025-03-27":{"energy":0.571,"danceability":0.522,"valence":0.471,"acousticness":0.486},"2025-04-03":{"energy":0.722,"danceability":0.528,"valence":0.565,"acousticness":0.143},"2025-04-10":{"energy":0.573,"danceability":0.696,"valence":0.642,"acousticness":0.316},"2025-04-24":{"energy":0.536,"danceability":0.588,"valence":0.582,"acousticness":0.342},"2025-05-01":{"energy":0.653,"danceability":0.387,"valence":0.393,"acousticness":0.376},"2025-05-08":{"energy":0.567,"danceability":0.583,"valence":0.571,"acousticness":0.347},"2025-09-22":{"energy":0.575,"danceability":0.587,"valence":0.441,"acousticness":0.277},"2025-10-01":{"energy":0.65,"danceability":0.666,"valence":0.589,"acousticness":0.236},"2025-10-08":{"energy":0.669,"danceability":0.509,"valence":0.397,"acousticness":0.12},"2025-10-22":{"energy":0.624,"danceability":0.439,"valence":0.424,"acousticness":0.191},"2025-10-29":{"energy":0.68,"danceability":0.503,"valence":0.501,"acousticness":0.186},"2025-11-05":{"energy":0.671,"danceability":0.562,"valence":0.631,"acousticness":0.297},"2025-11-12":{"energy":0.646,"danceability":0.544,"valence":0.514,"acousticness":0.217},"2025-11-19":{"energy":0.627,"danceability":0.534,"valence":0.561,"acousticness":0.3},"2025-12-03":{"energy":0.559,"danceability":0.562,"valence":0.547,"acousticness":0.326},"2025-12-10":{"energy":0.685,"danceability":0.438,"valence":0.411,"acousticness":0.11},"2026-01-26":{"energy":0.652,"danceability":0.533,"valence":0.561,"acousticness":0.17},"2026-02-09":{"energy":0.661,"danceability":0.523,"valence":0.378,"acousticness":0.208},"2026-02-16":{"energy":0.619,"danceability":0.513,"valence":0.506,"acousticness":0.334},"2026-03-16":{"energy":0.638,"danceability":0.56,"valence":0.493,"acousticness":0.31},"2026-03-23":{"energy":0.697,"danceability":0.504,"valence":0.473,"acousticness":0.137}};
 
-  const labels = showEnergy.map(s => {
-    const d = new Date(s.date + 'T12:00:00');
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+function renderAudioDNA() {
+  const labels = sortedDates.map(d => {
+    const dt = new Date(d + 'T12:00:00');
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   });
-
-  new Chart(document.getElementById('chart-energy'), {
+  const mk = (label, key, color) => ({
+    label,
+    data: sortedDates.map(d => AUDIO_DNA[d]?.[key] ?? 0),
+    borderColor: color,
+    backgroundColor: color + '18',
+    tension: 0.35,
+    pointRadius: 4,
+    pointHoverRadius: 6,
+    pointBackgroundColor: color,
+    pointBorderColor: '#0D0D0D',
+    pointBorderWidth: 1.5,
+    borderWidth: 2
+  });
+  new Chart(document.getElementById('chart-audio-dna'), {
     type: 'line',
     data: {
       labels,
-      datasets: [{
-        data: showEnergy.map(s => s.avg),
-        borderColor: '#D4735E',
-        backgroundColor: 'rgba(212, 115, 94, 0.1)',
-        fill: true,
-        tension: 0.4,
-        pointBackgroundColor: '#D4735E',
-        pointBorderColor: '#1A1A1A',
-        pointBorderWidth: 2,
-        pointRadius: 5,
-        pointHoverRadius: 7
-      }]
+      datasets: [
+        mk('Energy', 'energy', '#D4A24E'),
+        mk('Danceability', 'danceability', '#D4735E'),
+        mk('Valence', 'valence', '#8BB174'),
+        mk('Acousticness', 'acousticness', '#7B93DB')
+      ]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: false },
+        legend: {
+          display: true,
+          position: 'top',
+          align: 'start',
+          labels: {
+            color: '#A8A29E',
+            font: { family: 'Satoshi', size: 11 },
+            boxWidth: 12,
+            boxHeight: 2,
+            padding: 16,
+            usePointStyle: false
+          }
+        },
         tooltip: {
           backgroundColor: '#1A1A1A',
           titleColor: '#F0EBE3',
@@ -1303,7 +1327,7 @@ function renderEnergyChart() {
           cornerRadius: 8,
           padding: 10,
           callbacks: {
-            label: ctx => `Avg popularity: ${ctx.raw}`
+            label: ctx => `${ctx.dataset.label}: ${(ctx.raw * 100).toFixed(0)}%`
           }
         }
       },
@@ -1314,9 +1338,12 @@ function renderEnergyChart() {
         },
         y: {
           grid: { color: 'rgba(240,235,227,0.05)' },
-          ticks: { color: '#78716C', font: { family: 'Satoshi', size: 12 } },
-          min: 30,
-          max: 80
+          ticks: {
+            color: '#78716C',
+            font: { family: 'Satoshi', size: 11 },
+            callback: v => (v * 100).toFixed(0) + '%'
+          },
+          min: 0, max: 1
         }
       },
       animation: { duration: 800, easing: 'easeOutQuart' }
