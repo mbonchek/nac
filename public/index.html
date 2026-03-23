@@ -242,30 +242,15 @@ body {
 }
 
 .latest-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
   padding-bottom: 80px;
 }
 
-@media (max-width: 600px) {
-  .latest-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-  .track-card-info {
-    padding: 4px 6px 6px;
-  }
-  .track-card-name {
-    font-size: 10px;
-    -webkit-line-clamp: 1;
-  }
-  .track-card-artist {
-    font-size: 9px;
-  }
-  .track-card-album {
-    display: none;
-  }
+.latest-grid .track-card {
+  width: 140px;
+  flex-shrink: 0;
 }
 
 .track-card {
