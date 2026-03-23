@@ -492,6 +492,10 @@ body {
   gap: 16px;
 }
 
+@media (max-width: 600px) {
+  .repeats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+
 .repeat-card {
   background: var(--bg-surface);
   border-radius: var(--radius-md);
