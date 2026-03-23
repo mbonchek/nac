@@ -172,23 +172,8 @@ body {
 }
 
 @media (max-width: 640px) {
-  .nav-tabs {
-    position: fixed;
-    top: 64px;
-    left: 0;
-    right: 0;
-    background: rgba(13, 13, 13, 0.97);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border-subtle);
-    padding: 8px 16px;
-    flex-direction: row;
-    gap: 2px;
-    display: none;
-    justify-content: center;
-  }
-  .nav-tabs.open { display: flex; }
-  .nav-mobile-toggle { display: block; }
-  .nav-tab { font-size: 13px; padding: 8px 12px; }
+  .nav-mobile-toggle { display: none; }
+  .nav-tab { font-size: 13px; padding: 8px 10px; }
   .nav-tab.active::after { bottom: 2px; }
 }
 
@@ -246,6 +231,17 @@ body {
   flex-wrap: wrap;
   gap: 12px;
   padding-bottom: 80px;
+}
+
+@media (max-width: 600px) {
+  .latest-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .track-card { width: auto; }
+  .track-card-name { font-size: 13px; }
+  .track-card-artist { font-size: 12px; }
 }
 
 .track-card {
